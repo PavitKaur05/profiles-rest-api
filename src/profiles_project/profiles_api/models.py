@@ -13,9 +13,12 @@ class UserProfileManager(BaseUserManager):
             raise ValueError('Users must have email address')
 
         email=self.normalize_email(email)
+        """Converts all character to lower case"""
         user=self.model(email=email,name=name)
+        """Not clear what this is doing"""
 
         user.set_password(password)
+        """encrypts the password"""
         user.save(using=self._db)
 
         return user

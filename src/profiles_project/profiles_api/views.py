@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from . import serializers
+from . import models
 from rest_framework import status
 # Create your views here.
 class HelloApiView(APIView):
@@ -92,3 +93,9 @@ class HelloViewSet(viewsets.ViewSet):
         """Handles removing an object."""
 
         return Response({'http_method':'DELETE'})
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handles creating ,updating and retrieving objects"""
+
+    serializer_class=serializers.UserProfileSerializer
+    queryset=models.UserProfile.objects.all() #which tells viewset how to retreive objects from database and used to list all objects from database

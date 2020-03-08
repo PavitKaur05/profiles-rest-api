@@ -1,10 +1,18 @@
 from django.shortcuts import render
+
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
+
+
+
 from . import serializers
 from . import models
-from rest_framework import status
+from . import permissions
+
 # Create your views here.
 class HelloApiView(APIView):
     """Test API View"""
@@ -98,4 +106,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     """Handles creating ,updating and retrieving objects"""
 
     serializer_class=serializers.UserProfileSerializer
-    queryset=models.UserProfile.objects.all() #which tells viewset how to retreive objects from database and used to list all objects from database
+    queryset=models.UserProfile.objects.all()#which tells viewset how to retreive objects from database and used to list all objects from database
+    authentication_classes=(TokenAuthentication,)
+    permission_classes=(permissions.UpdateOwnProfile,)
+    filter_backends=(filters.SearchFilter,)
+    search_fields=('name','email',)

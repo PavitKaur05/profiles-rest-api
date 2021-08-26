@@ -115,13 +115,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     search_fields=('name','email',)
 
 class LoginViewSet(viewsets.ViewSet):
-    """Checks email nd password and returns an auth token"""
+    """Checks email and password and returns an auth token"""
     serializer_class=AuthTokenSerializer
     def create(self,request):
         """Use the ObtainAuthToken APIView to validate and create a token."""
 
-        return ObtainAuthToken().post(request)
-
+        return ObtainAuthToken().as_view()(request=request._request)
+        
 class UserProfileFeedViewSet(viewsets.ModelViewSet):
     """Handles creating,reading and updating profile feed items"""
     authentication_classes=(TokenAuthentication,)
